@@ -17,3 +17,8 @@ def contact():
 @app.route("/<string:page_name>")
 def html_page(page_name):
     return render_template(page_name)
+
+#Route to handle a 404 error
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('not-found.html'), 404
