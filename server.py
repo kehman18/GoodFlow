@@ -5,6 +5,8 @@ from flask_mail import Mail, Message
 
 app = Flask(__name__)
 
+# Youtube Link - https://www.youtube.com/embed/G2HyyseuMoQ?autoplay=1&mute=1&loop=1&playlist=G2HyyseuMoQ
+
 def send_mail_service(name, email, service, service_date, special_request):
     '''the function helps send mail'''
     msg = Message(
@@ -59,7 +61,7 @@ def submit_form():
 
         send_mail_contact(name, email, subject, message)
 
-        with open('contact.database.csv', 'a', newline='', encoding='utf-8') as csvfile:
+        with open('contact_database.csv', 'a', newline='', encoding='utf-8') as csvfile:
             csv_writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             csv_writer.writerow([name, email, subject, message])
 
@@ -97,5 +99,14 @@ def page_not_found(e):
     '''this function handles the page not found error'''
     return render_template('not-found.html'), 404
 
-#first start with splitting the database to the service database.
-#send different Messages based on the form filled by the end user
+'''
+Water Heater - https://www.youtube.com/embed/1ReNDCiNDmQ
+
+New Construction and Pipe Installation- https://www.youtube.com/embed/G2HyyseuMoQ
+
+Leak Detection and Repair - https://www.youtube.com/embed/E_44Kww5F1A
+
+Sewer Line Repair - https://www.youtube.com/embed/qb8usCMaf8w
+
+Toilet installation - https://youtube.com/embed/1QikUST0-uc
+'''
