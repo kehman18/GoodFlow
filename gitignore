@@ -1,4 +1,5 @@
 /.venv
 /__pycache__
+.env
 contact_database.csv
 service_database.csv

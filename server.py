@@ -1,11 +1,21 @@
 '''necessary for the server to run properly'''
 import csv
+import os
+from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect
 from flask_mail import Mail, Message
 
 app = Flask(__name__)
 
-# Youtube Link - https://www.youtube.com/embed/G2HyyseuMoQ?autoplay=1&mute=1&loop=1&playlist=G2HyyseuMoQ
+load_dotenv()
+app.secret_key = os.getenv('SECRET_KEY')
+
+# Email configuration
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 
 def send_mail_service(name, email, service, service_date, special_request):
     '''the function helps send mail'''
@@ -28,13 +38,6 @@ def send_mail_contact(name, email, subject, message):
         # Form a single sentence for the email body
     msg.body = f"Sender's Name: {name}\n\n Sender's Mail: ({email})\n\n {name} has reached out with the following message details. Subject: {subject}, Message: {message}."
     mail.send(msg)
-    
-# Email configuration
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USERNAME'] = 'adekolaolabisi7@gmail.com'
-app.config['MAIL_PASSWORD'] = 'rlehmineppqafgpz'
 
 mail = Mail(app)
 
@@ -64,7 +67,6 @@ def submit_form():
         with open('contact_database.csv', 'a', newline='', encoding='utf-8') as csvfile:
             csv_writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             csv_writer.writerow([name, email, subject, message])
-
 
         return redirect('thankyou.html')
 
@@ -98,15 +100,3 @@ def html_page(page_name):
 def page_not_found(e):
     '''this function handles the page not found error'''
     return render_template('not-found.html'), 404
-
-'''
-Water Heater - https://www.youtube.com/embed/1ReNDCiNDmQ
-
-New Construction and Pipe Installation- https://www.youtube.com/embed/G2HyyseuMoQ
-
-Leak Detection and Repair - https://www.youtube.com/embed/E_44Kww5F1A
-
-Sewer Line Repair - https://www.youtube.com/embed/qb8usCMaf8w
-
-Toilet installation - https://youtube.com/embed/1QikUST0-uc
-'''
